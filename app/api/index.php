@@ -24,20 +24,37 @@ if(isset($postdata) && !empty($postdata))
  if (isset($request["where"])){
      $where = $request["where"];
  }
-
-    if (isset($request["dashboard"])){
-        $dashboard = $request["dashboard"];
-    }
+if(isset($request["sessionId"])){
+    $sessionId = $request["sessionId"];
+    $sessionData = getUserBySession($sessionId,$conn);
+}
+if (isset($request["dashboard"])){
+    $dashboard = $request["dashboard"];
+}
+if (isset($request["withAdmin"])){
+    $withAdmin = $request["withAdmin"];
+}
 
     if(isset($foreignFields)){
         //fetch where set foreign key
         if ($where){
-            $row = fetch_all($table,$conn,$where);
+            if (isset($sessionData) && !$sessionData["isAdmin"] &&
+                isset($withAdmin) && $withAdmin){
+                $row = fetch_by_id($table,$sessionData["user_id"], $conn,"user_id");
+            }else{
+                $row = fetch_all($table,$conn,$where);
+            }
         }else{
             if (isset($foreignKey)){
-              $row = fetch_by_id($table,array_values($foreignKey)[0],$conn,array_keys($foreignKey)[0]);
+              $row = fetch_by_id($table,array_values($foreignKey)[0],
+                  $conn,array_keys($foreignKey)[0]);
             }else{
-              $row = fetch_all($table,$conn);
+                if (isset($sessionData) && !$sessionData["isAdmin"]&&
+                    isset($withAdmin) && $withAdmin){
+                    $row = fetch_by_id($table,$sessionData["user_id"], $conn,"user_id");
+                }else{
+                    $row = fetch_all($table,$conn);
+                }
             }
         }
         $rowTempList = [];
@@ -45,7 +62,10 @@ if(isset($postdata) && !empty($postdata))
             foreach ($foreignFields as $foreign){
                 if (isset($foreign["table"])){
 //                        echo $foreign["table"].' / ';
-                    if (isset($rowItem[$foreign["field"]])){
+                    if (isset($rowItem[$foreign["field"]])
+                        && $rowItem[$foreign["field"]] != "undefined"
+                        && $rowItem[$foreign["field"]] != ""
+                    ){
                         $innerRowsTemp = selectRecord($foreign["table"], "doc_id", $rowItem[$foreign["field"]], $conn);
                         if ($innerRowsTemp) {
                             $object["name"] = $innerRowsTemp["name"];
@@ -60,7 +80,12 @@ if(isset($postdata) && !empty($postdata))
         $row = $rowTempList;
     }else{
         if (isset($table)){
-            $row = fetch_all($table,$conn,$where);
+            if (isset($sessionData) && !$sessionData["isAdmin"]&&
+                isset($withAdmin) && $withAdmin){
+                $row = fetch_by_id($table,$sessionData["user_id"], $conn,"user_id");
+            }else{
+                $row = fetch_all($table,$conn,$where);
+            }
         }
     }
 //
@@ -109,33 +134,36 @@ if(isset($postdata) && !empty($postdata))
 
     if (isset($request["dashboard"])){
         $dashboard = $request["dashboard"];
-        if (isset($foreignKey)){
-          $userRow = fetch_by_id("users",array_values($foreignKey)[0],$conn,"doc_id");
+        $sessionId = $request["sessionId"];
+        $table = $dashboard[0]["table"];
+        if (isset($sessionId)){
+            $sessionRow = selectRecord("sessions","doc_id",$sessionId,$conn);
+            $userRow = selectRecord("users","doc_id",$sessionRow["user_id"],$conn);
         }
+        $carsTypes = fetch_all($table,$conn);
 
-        foreach ($dashboard as $item){
-            $table = $item["table"];
-            if (isset($foreignKey) && isset($item["user"]) && $item["user"] && $userRow[0]["role"] != "1"){
-                $row = fetch_by_id($table,array_values($foreignKey)[0],$conn,array_keys($foreignKey)[0]);
-            }else{
-                $row = fetch_all($table,$conn);
-            }
-            $total = 0;
-            foreach ($row as $itemRow){
-                if (isset($item["field"]) && isset($itemRow[$item["field"]])){
-                    $total += (int) $itemRow[$item["field"]];
-                }
-            }
-            $finalRow[$item["table"]]["total"] = $total;
-            if (isset($item["user"]) && $item["user"]){
-                $finalRow[$item["table"]]["count"] = count($row);
-            }else{
-                $finalRow[$item["table"]] = count($row);
-            }
+        foreach ($carsTypes as $type){
+            $carsRows = fetch_by_id("cars",$type["doc_id"],$conn,"carTypeId");
+            $object["name"] = $type["name"];
+            $object["count"] = count($carsRows);
+            $finalRow[$table][] = $object;
         }
         if (isset($userRow)){
-          $finalRow["role"] = $userRow[0]["role"];
+          $finalRow["role"] = $userRow["role"];
+          $finalRow["session"]["sessionId"] = $sessionId;
+          $finalRow["session"]["name"] = $userRow["name"];
+          if ((int) $finalRow["role"] == 1){
+              $finalRow["session"]["isAdmin"] = true;
+          }else{
+              $finalRow["session"]["isAdmin"] = false;
+          }
         }
+        $total = 0;
+        foreach ($finalRow[$table] as $value){
+//            echo json_encode($value["count"]);
+            $total += $value["count"];
+        }
+        $finalRow[$table."Count"] = $total;
        $row = $finalRow;
     }
 }

@@ -25,7 +25,7 @@ function fetch_all($table, $conn,$where = ''){
     if ($where){
         $filed = $where['field'];
         $value = $where['value'];
-        $sql = "SELECT * FROM $table where $filed = $value ORDER BY id DESC";
+        $sql = "SELECT * FROM $table where $filed != $value ORDER BY id DESC";
     }else{
         $sql = "SELECT * FROM $table ORDER BY id DESC";
     }
@@ -251,4 +251,29 @@ function selectArrayRecord($table, $field, $value, $conn)
 
 // updateAll("users", [["id"=> 1,"user"=>"35", "username"=>"37", "age"=>"43"],["id"=>2,"user"=>"55", "username"=>"77", "age"=>"44"]],null);
 // echo "\n";
+
+function getUserBySession($sessionId,$conn){
+    $row = false;
+    $finalRow = array();
+    if (isset($sessionId)){
+        $sessionRow = selectRecord("sessions","doc_id",$sessionId,$conn);
+        if ($sessionRow){
+            $userRow = selectRecord("users","doc_id",$sessionRow["user_id"],$conn);
+            if (isset($userRow)){
+//                $finalRow["role"] = $userRow["role"];
+                $finalRow["sessionId"] = $sessionId;
+                $finalRow["name"] = $userRow["name"];
+                $finalRow["user_id"] = $sessionRow["user_id"];
+                if ((int) $userRow["role"] == 1){
+                    $finalRow["isAdmin"] = true;
+                }else{
+                    $finalRow["isAdmin"] = false;
+                }
+            }
+        }
+        $row = $finalRow;
+    }
+    return $row;
+}
+
 ?>

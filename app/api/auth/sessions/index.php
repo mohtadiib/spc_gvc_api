@@ -1,12 +1,20 @@
 <?php
-require '../../db.php';
-require '../../mysql.php';
+require '../../../db.php';
+require '../../../mysql.php';
 
-$result = ['msg'=>'Error No Feilds'];
-
-function saveToken(){
-    $result = insertAll("se", $items, $conn);
+$res = ['running'=> false];
+if(isset($postdata))
+{
+    $request = json_decode($postdata,true);
+    $sessionId = $request["sessionId"];
+    if ($sessionId && $sessionId != "undefined"){
+        $sessionData = getUserBySession($sessionId,$conn);
+    }
+    if (isset($sessionData)){
+        $res["running"] = true;
+        $res["session"] = $sessionData;
+    }
 }
-echo json_encode($result);
+echo json_encode($res);
 mysqli_close($conn);
 ?>

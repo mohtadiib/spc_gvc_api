@@ -1,10 +1,9 @@
 <?php
 require 'header.php';
-
 $servername = "localhost";
 $username = "root";
-$password = "root";
-$dbname = "companypos";
+$password = "root1234";
+$dbname = "spc_cars";
 //$servername = "localhost";
 //$username = "ozsjmcmy_talabatk";
 //$password = "ozsjmcmy_talabatk9933##$$";
@@ -19,5 +18,7 @@ if (!$conn) {
 }
 // Get the posted data.
 $postdata = file_get_contents("php://input");
+$date = date("ds");
+$random = (string) rand(100, 999);
 
 ?>

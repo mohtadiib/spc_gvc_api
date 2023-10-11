@@ -2,6 +2,7 @@
 require '../../db.php';
 require '../../mysql.php';
 require '../../functions.php';
+
 $date = date("ds");
 $random = (string) rand(100, 999);
 
@@ -18,14 +19,18 @@ unset($dataList[0]["innerItem"]);
 if(isset($request["foreignField"])){
 $foreignField = $request["foreignField"];
 }
-
+if(isset($request["sessionId"])){
+$sessionId = $request["sessionId"];
+}
+    $sessionData = getUserBySession($sessionId,$conn);
     foreach ($dataList as $item){
 //            if(isset($foreignField)){
 //                $item[$foreignField['foreignKeys'][0]] = $foreignField['foreignKeys'][0];
 //            }
+            $item["user_id"] = $sessionData["user_id"];
             $items[] = $item;
     }
-$result = insertAll($table, $dataList, $conn);
+$result = insertAll($table, $items, $conn);
 //
 $res['msg'] = 'Error , IN your syntac , check ur params';
 //
