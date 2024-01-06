@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e1dce14-93ad-4ac3-8904-9a9644e364e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pos_system.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/sessions/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/sessions/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/insert/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/insert/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/login/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/login/select_permissions/error_log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/login/select_permissions/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/mult_table/get_length/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/mult_table/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/titles/error_log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/titles/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/db.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/mysql.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/mysql.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clearance (1).sql" beforeDir="false" />
-    </list>
+    <list default="true" id="3e1dce14-93ad-4ac3-8904-9a9644e364e9" name="Changes" comment="add all api files" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,8 +64,17 @@
       <workItem from="1696908395260" duration="375000" />
       <workItem from="1696909305131" duration="933000" />
       <workItem from="1696919200971" duration="10169000" />
-      <workItem from="1696953499388" duration="2166000" />
+      <workItem from="1696953499388" duration="2213000" />
     </task>
+    <task id="LOCAL-00001" summary="add all api files">
+      <option name="closed" value="true" />
+      <created>1696998195131</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696998195131</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -96,6 +84,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="add all api files" />
+    <option name="LAST_COMMIT_MESSAGE" value="add all api files" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
